@@ -20,19 +20,18 @@ public class main {
 
             switch (choice) {
                 case "1":
-                    System.out.println("jeden");
+                    Task.addPerson(s);
                     break;
                 case "2":
-                    System.out.println("dwa");
+                    Task.showAll(s);
                     break;
                 case "3":
-                    System.out.println("trzy");
+                    Task.showFiltered(s);
                     break;
                 case "4":
-                    System.out.println("cztery");
+                    Task.updatePerson(s);
                     break;
                 case "0":
-                    System.out.println("zero");
                     on = false;
                     break;
                default:
@@ -40,13 +39,13 @@ public class main {
                     break;
 
             }
-            //s.executeUpdate("insert into osoby (imie, nazwisko) values ('dupa'   , 'dupowicz')"); //dodawanie
-            //s.executeUpdate("delete from osoby where id=101"); // usuwanie
-            //s.executeUpdate("UPDATE osoby SET imie='Marek' WHERE id=201"); // update
-            choice = null;
-            Task.showAll(s);
-        }
 
+            //s.executeUpdate("delete from osoby where id=201"); // usuwanie
+
+
+            choice = null;
+            //Task.showAll(s);
+        }
 
         connection.close();
     }
