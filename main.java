@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
@@ -11,7 +13,11 @@ public class main {
 
         Connection connection = PolaczenieZBaza.getInstance().getConnection();
 
-        Statement s = connection.createStatement();
+        Statement s = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
+
+        KontaktyFrame frame = new KontaktyFrame();
+        frame.startFrame(s);
 
         while(on){
             System.out.println("1 - Dodaj osobe \n2 - Pokaz wszystkie \n3 - Pokaz filtr \n4 - Zmien dane osoby \n0 - Koniec");

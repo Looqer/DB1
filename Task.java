@@ -42,7 +42,20 @@ public class Task {
 
     public static void updatePerson(Statement s) throws SQLException {
 
-        s.executeUpdate("UPDATE osoby SET imie='Marek' WHERE id=201"); // update
+        String name, surname;
+        String id;
+        System.out.println("Podaj id do edycji: ");
+        Scanner inId = new Scanner(System.in);
+        id = inId.nextLine();
+        System.out.println("Podaj nowe imie: ");
+        Scanner inName = new Scanner(System.in);
+        name = inName.nextLine();
+        System.out.println("Podaj nowe nazwisko: ");
+        Scanner inSurname = new Scanner(System.in);
+        surname = inSurname.nextLine();
+
+        s.executeUpdate("UPDATE osoby SET imie = '"+name+"' WHERE id="+id+""); // update
+        s.executeUpdate("UPDATE osoby SET nazwisko = '"+surname+"' WHERE id="+id+""); // update
 
     }
 
