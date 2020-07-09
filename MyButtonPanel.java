@@ -1,11 +1,13 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 
-class MyButtonPanel extends JPanel implements ActionListener{
+class MyButtonPanel extends JPanel implements ActionListener {
 
     public static final int HEIGHT = 100;
     public static final int WIDTH = 300;
@@ -30,20 +32,54 @@ class MyButtonPanel extends JPanel implements ActionListener{
         add(pokaz);
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source == dodaj_kontakt)
+        if (source == dodaj_kontakt) {
             System.out.println("butk");
+        }
+        else if (source == dodaj_osobe) {
+            String imieINazwisko = JOptionPane.showInputDialog(MyButtonPanel.this, "Wpisz imię i nazwisko oddzielone spacją");
+            String[] dane = imieINazwisko.split(" ");
 
-        else if(source == dodaj_osobe)
-            System.out.println("buto");
+            PreparedStatement ps = null;
+            try {
+                ps = PolaczenieZBaza.getInstance().getConnection().prepareStatement("insert into osoby (imie, nazwisko) values (?, ?)");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
 
-        else if(source == usun)
+                try {
+                    ps.setString(1, dane[0]);
+                    ps.setString(2, dane.length < 2 ? "" : dane[1]);
+                    ps.executeUpdate();
+                    ps.close();
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                try {
+                    KontaktyFrame.dataModel.refresh();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException notFoundException) {
+                    notFoundException.printStackTrace();
+                }
+                KontaktyFrame.dataModel.fireTableDataChanged();
+            }
+        }
+        else if (source == usun) {
             System.out.println("butu");
-
-        else if(source == pokaz)
+        }
+        else if (source == pokaz) {
             System.out.println("butp");
+        }
     }
 }
+
+
+

@@ -46,11 +46,7 @@ public class main {
 
             }
 
-            //s.executeUpdate("delete from osoby where id=201"); // usuwanie
-
-
             choice = null;
-            //Task.showAll(s);
         }
 
         connection.close();
