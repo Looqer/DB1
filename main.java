@@ -15,7 +15,6 @@ public class main {
 
         Statement s = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 
-
         KontaktyFrame frame = new KontaktyFrame();
         frame.startFrame(s);
 

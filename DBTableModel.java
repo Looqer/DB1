@@ -7,9 +7,14 @@ import java.util.Vector;
 
 class DBTableModel extends AbstractTableModel {
 
-    public DBTableModel(Connection connection, String query ){
-        
+    Connection myConnection;
+    String myQuery;
+
+    public DBTableModel( Connection connection, String query ){
+    myConnection = connection;
+    myQuery = query;
     }
+
 
     private Vector<Wiersz> dane;
 
@@ -68,9 +73,10 @@ class DBTableModel extends AbstractTableModel {
         s.close();
     }
 
-    public void refresh() throws SQLException, ClassNotFoundException {
 
+    public void refresh() throws SQLException, ClassNotFoundException {
         pobierzDane();
+        
     }
 
 

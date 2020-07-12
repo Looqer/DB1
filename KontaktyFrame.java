@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,45 +11,28 @@ import javax.swing.event.ListSelectionListener;
 public class KontaktyFrame extends JFrame {
 
     static DBTableModel dataModel;
-    JTable table;
+    static JTable table;
     MyButtonPanel bottomPanel;
 
     static GraphicsConfiguration gc;
+    static JFrame frame = new JFrame(gc);
+    static ResultSet rs;
 
-    public void startFrame(Statement s) throws SQLException {
-        JFrame frame = new JFrame(gc);
+    public void startFrame(Statement s) throws SQLException, ClassNotFoundException {
         frame.setTitle("Kontakty");
         frame.setSize(640, 320);
         frame.setLocation(400, 300);
         frame.setVisible(true);
 
+        Connection connection = PolaczenieZBaza.getConnection();
 
-        String[] columnNames = {"Imię",
-                "Nazwisko"};
+        table = new JTable();
+        dataModel = new DBTableModel(s.getConnection(),"select * from osoby");
+        table.setModel(dataModel);
 
-        ResultSet rs = s.executeQuery("select * from osoby");
-        rs.last();
-        String[][] data = new String[rs.getRow()][2];
-        rs.beforeFirst();
+        bottomPanel = new MyButtonPanel();
 
-        int i = 0;
-        while (rs.next()) {
-            data[i][0] = rs.getString(2);
-            data[i][1] = rs.getString(3);
-            i++;
-        }
-
-
-    table =new
-
-    JTable(data, columnNames);
-
-    bottomPanel =new
-
-    MyButtonPanel();
-        table.getSelectionModel().
-
-    addListSelectionListener(new ListSelectionListener() {
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
         @Override
         public void valueChanged (ListSelectionEvent arg0){
@@ -56,12 +40,11 @@ public class KontaktyFrame extends JFrame {
             bottomPanel.usun.setEnabled(table.getSelectedRowCount() > 0);
             bottomPanel.pokaz.setEnabled(table.getSelectedRowCount() > 0);
         }
+
     });
 
         frame.add(bottomPanel,BorderLayout.SOUTH);
-        frame.add(new
-
-    JScrollPane(table),BorderLayout.CENTER );
+        frame.add(new JScrollPane(table),BorderLayout.CENTER );
 
 
     }

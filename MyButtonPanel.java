@@ -38,7 +38,7 @@ class MyButtonPanel extends JPanel implements ActionListener {
         Object source = e.getSource();
 
         if (source == dodaj_kontakt) {
-            System.out.println("butk");
+
         }
         else if (source == dodaj_osobe) {
             String imieINazwisko = JOptionPane.showInputDialog(MyButtonPanel.this, "Wpisz imię i nazwisko oddzielone spacją");
@@ -47,36 +47,34 @@ class MyButtonPanel extends JPanel implements ActionListener {
             PreparedStatement ps = null;
             try {
                 ps = PolaczenieZBaza.getInstance().getConnection().prepareStatement("insert into osoby (imie, nazwisko) values (?, ?)");
+                ps.setString(1, dane[0]);
+                ps.setString(2, dane.length < 2 ? "" : dane[1]);
+                ps.executeUpdate();
+                ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (ClassNotFoundException classNotFoundException) {
                 classNotFoundException.printStackTrace();
-
-                try {
-                    ps.setString(1, dane[0]);
-                    ps.setString(2, dane.length < 2 ? "" : dane[1]);
-                    ps.executeUpdate();
-                    ps.close();
-
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-
-                try {
-                    KontaktyFrame.dataModel.refresh();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                } catch (ClassNotFoundException notFoundException) {
-                    notFoundException.printStackTrace();
-                }
-                KontaktyFrame.dataModel.fireTableDataChanged();
             }
+
+            try {
+                KontaktyFrame.dataModel.pobierzDane();
+                KontaktyFrame.dataModel.fireTableDataChanged();
+                SwingUtilities.updateComponentTreeUI(KontaktyFrame.frame);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+
+
         }
         else if (source == usun) {
-            System.out.println("butu");
+
         }
+
         else if (source == pokaz) {
-            System.out.println("butp");
+
         }
     }
 }

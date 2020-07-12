@@ -1,11 +1,11 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class PolaczenieZBaza {
 
     private static PolaczenieZBaza inst;
-    private Connection connection;
+    private static Connection connection;
+
+
 
     public static PolaczenieZBaza getInstance() throws ClassNotFoundException, SQLException {
         if(inst == null) {
@@ -19,7 +19,7 @@ public class PolaczenieZBaza {
         Class.forName("org.apache.derby.jdbc.ClientDriver");
     }
 
-    public Connection getConnection() throws SQLException, ClassNotFoundException {
+    public static Connection getConnection() throws SQLException, ClassNotFoundException {
         connection = DriverManager.getConnection( "jdbc:derby://localhost:1527/baza1" );
         return connection;
     }
@@ -27,5 +27,6 @@ public class PolaczenieZBaza {
     public void close() throws SQLException{
         
     }
+
 
 }
